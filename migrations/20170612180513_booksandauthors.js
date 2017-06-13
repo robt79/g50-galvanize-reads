@@ -3,8 +3,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('booksandauthors', (table) => {
     table.increments('id');
-    table.integer('book_id');
-    table.integer('auth_id');
+    table.integer('books_id').notNullable();
+    table.integer('auth_id').notNullable();
     table.timestamps(true, true);
   });
 };
