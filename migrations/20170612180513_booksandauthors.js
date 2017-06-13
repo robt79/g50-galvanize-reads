@@ -3,11 +3,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('booksandauthors', (table) => {
     table.increments('id');
-    table.string('title').notNullable().defaultTo('');
-    table.string('author').notNullable().defaultTo('');
-    table.string('genre').notNullable().defaultTo('');
-    table.text('description').notNullable().defaultTo('');
-    table.text('cover_url').notNullable().defaultTo('');
+    table.integer('book_id');
+    table.integer('auth_id');
     table.timestamps(true, true);
   });
 };
