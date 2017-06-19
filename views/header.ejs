@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <title>Home Page</title>
   <!--Import Google Icon Font-->
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Compiled and minified CSS -->
@@ -10,17 +11,18 @@
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-  <title>Home Page</title>
 </head>
 
-<body class="blue lighten-5">
-  <% include ./header %>
-
-    <form>
-      <input type="text" class="form-control" name="#" placeholder="Search (by genre)"><br>
-      <button type="submit" class="btn btn-defualt indigo darken-4">Submit</button>
-    </form>
-
-</body>
-
-</html>
+<body>
+  <nav>
+    <div class="nav-wrapper  indigo darken-4">
+      <a href="#" class="brand-logo">Galvanize Reads</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/books/add">Add Book</a></li>
+        <li><a href="/authors/add">Add Author</a></li>
+      </ul>
+    </div>
+  </nav>
