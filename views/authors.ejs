@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Authors Page</title>
+</head>
+
+<body>
+  <h1>Authors Page</h1>
+  <div>
+    <% authors.forEach((author) => { %>
+      <a href="/authors/<%= author['id'] %>"><img src="<%= author['portrait'] %>" alt="<%= author['firstname'] %>" style="height:175px;width:150px;" /></a>
+      <!-- <a href="/authors/<%= author['id'] %>"> -->
+      <p>
+        <%=author['firstname']+' '+author['lastname']%>
+      </p>
+      </a>
+      <p>
+        <%=author['bio']%>
+      </p>
+      <% }); %>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Books Profile Page</title>
+</head>
+
+<body>
+  <a href="/books">Home</a>
+  <a href="/books">Books</a>
+  <a href="/authors">Authors</a>
+  <!-- <a href="/books/add">Add Book</a> -->
+  <!-- <a href="/authors/add">Add Author</a> -->
+  <h1>Book Profile Page</h1>
+  <% books.forEach((book) => { %>
+    <img src="<%= book['cover_url'] %>" alt="<%= book['title'] %>" style="height:250px;width:250px; border: solid;" />
+    <h2><%=book['title']%></h2>
+    <h3><%=book['genre']%></h3>
+    <p>
+      <%=book['description']%>
+    </p>
+    <p><strong>Authors:</strong></p>
+    <ol>
+      <% for (let i = 0; i < books.authors.length; i++) { %>
+        <a href="/authors/<%=books.authors[i]['auth_id'] %>">
+          <li>
+            <%=books.authors[i]['firstname'] +' '+ books.authors[i]['lastname']%>
+          </li>
+        </a>
+        <% }; %>
+    </ol>
+    <% }); %>
+      <a href="/books/<%=books[0]['id']%>/edit"><button type="button" class="btn btn-defualt">Edit</button></a>
+      <button type="button" class="btn btn-defualt">Remove</button>
+</body>
+
+</html>

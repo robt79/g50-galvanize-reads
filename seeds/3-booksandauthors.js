@@ -1,19 +1,39 @@
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('booksandauthors').del()
     .then(function() {
       // Inserts seed entries
-      return knex('table_name').insert([{
-          'booksid': 1,
-          'authorsid': 1
+      return knex('booksandauthors').insert([{
+          "book_id": 1,
+          "auth_id": 1
         },
         {
-          id: 2,
-          colName: 'rowValue2'
+          "book_id": 1,
+          "auth_id": 2
         },
         {
-          id: 3,
-          colName: 'rowValue3'
+          "book_id": 1,
+          "auth_id": 3
+        },
+        {
+          "book_id": 2,
+          "auth_id": 4
+        },
+        {
+          "book_id": 3,
+          "auth_id": 5
+        },
+        {
+          "book_id": 4,
+          "auth_id": 6
+        },
+        {
+          "book_id": 5,
+          "auth_id": 6
+        },
+        {
+          "book_id": 6,
+          "auth_id": 6
         }
       ]);
     });

@@ -1,70 +1,104 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const ejs = require('ejs');
+const bookModel = require('../models/books_model');
 
-var knex = require('knex')({
-  client: 'pg',
-  connection: process.env.DATABASE_URL || 'postgres://localhost/library'
-});
+// eslint-disable-next-line new-cap
+const router = express.Router();
+const knex = require('../knex');
 
-function books() {
-  return knex('books');
+const app = express();
+
+app.set('view engine', 'ejs');
+
+// functions to be used in GET requests
+function getBook(id) {
+  return knex('books')
+    .where('books.id', id);
 }
 
-router.get('/books', function(req, res) {
-  books().select().then(function(results) {
-    res.render('books/index', {
-      books: results
-    });
+function getAuthorsForBook(bookId) {
+  return knex('authors')
+    .join('booksandauthors', 'authors.id', 'booksandauthors.auth_id')
+    .where('booksandauthors.book_id', bookId);
+}
+
+// //Get book info
+// function getBook(description) {
+//   return knex('books')
+//     .where('books.description', description;
+//     }
+
+function getBookWithAuthors(bookId) {
+  return Promise.all([
+    getBook(bookId),
+    getAuthorsForBook(bookId),
+  ]).then((results) => {
+    console.log('book results', JSON.stringify(results));
+    const [book, authors] = results;
+    // const book = results.book;
+    // const authors = results.authors;
+    book.authors = authors;
+    return book;
   });
-});
-
-router.get('/books/new', function(req, res) {
-  res.render('books/new', {
-    book: {}
-  });
-});
-
-router.post('/books', function(req, res) {
-  var book = {
-    author: req.body.author,
-    title: req.body.title,
-    rating: req.body.rating,
-    description: req.body.description
-  }
-  books().insert(book).then(function(result) {
-    res.redirect('/books');
-  });
-});
+}
 
 
-router.get('/books/:id', function(req, res) {
-  books().where('id', req.params.id).first().then(function(result) {
-    res.render('books/show', {
-      book: result
-    });
-  });
-})
 
-router.get('/books/:id/edit', function(req, res) {
-  books().where('id', req.params.id).first().then(function(result) {
-    res.render('books/edit', {
-      book: result
-    });
-  });
-})
 
-router.post('/books/:id', function(req, res) {
-  books().where('id', req.params.id).update(req.body)
-    .then(function(result) {
-      res.redirect('/books');
-    });
-});
 
-router.post('/books/:id/delete', function(req, res) {
-  books().where('id', req.params.id).del()
-    .then(function(result) {
-      res.redirect('/books');
+// GET request for all books from our database
+router.get('/books', (_req, res, next) => {
+  knex('books')
+    .then((books) => {
+      res.render('books', {
+        books,
+      });
     })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET request for individual book with author info
+router.get('/books/:id', (_req, res, next) => {
+  const id = Number.parseInt(_req.params.id);
+
+  getBookWithAuthors(id)
+
+    .then((books) => {
+      res.render('books_profiles', {
+        books: books
+      });
+    })
+
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET request to populate book edit page using book id/info
+router.get('/books/:id/edit', (_req, res, next) => {
+  const id = Number.parseInt(_req.params.id);
+
+  getBookWithAuthors(id)
+
+    .then((books) => {
+      res.render('books_edit', {
+        books,
+      });
+    })
+
+    .catch((err) => {
+      next(err);
+    });
+});
+
+
+router.get('/books/add', (_req, res, next) => {
+  res.render('books_add')
 })
+
+
+
 
 module.exports = router;

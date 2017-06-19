@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.increments('id');
     table.string('firstname').notNullable().defaultTo('');
     table.string('lastname').notNullable().defaultTo('');
-    table.string('bio').notNullable().defaultTo('');
+    table.text('bio').notNullable().defaultTo('');
     table.text('portrait').notNullable().defaultTo('');
     table.timestamps(true, true);
   });
